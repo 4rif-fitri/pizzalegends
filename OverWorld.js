@@ -3,63 +3,37 @@ class OverWorld{
 		this.element = config.element
 		this.canvas = this.element.querySelector("#game-canvas")
 		this.ctx = this.canvas.getContext("2d")
+		this.map = null
 	}
 
-	init(){
-		let image = new Image()
-		image.onload = () => {
-			this.ctx.drawImage(image,0,0)
+	startGameLoop(){
+		let step = () => {
+			//cler canvas
+			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+
+			
+			this.map.drawLowerImage(this.ctx)
+			Object.values(this.map.gameObjects).forEach(obj => {
+					// obj.x += 0.01
+					obj.sprite.draw(this.ctx)
+				})
+				
+				this.map.drawUpperImage(this.ctx)
+				
+				// this.map.drawUpperImage(this.ctx)
+				
+			requestAnimationFrame(() => {
+				step()
+			})
 		}
-		image.src = "./images/maps/DemoLower.png"
+		step()
+	}
+	
+	init(){
+		this.map = new OverWorldMap(
+			window.OverWorldMaps.DemoRoom
+		)
 
-		// let x = 5
-		// let y = 6
-
-		// let shadow = new Image()
-		// shadow.onload = () => {
-		// 	this.ctx.drawImage(
-		// 		shadow,
-		// 		0,
-		// 		0,
-		// 		32,
-		// 		32,
-		// 		x * 16 - 8,
-		// 		y * 16 - 18,
-		// 		32,
-		// 		32	
-		// 	)
-		// }
-		// shadow.src = "./images/characters/shadow.png" 
-
-		// let hero = new Image()
-		// hero.onload = () => {
-		// 	this.ctx.drawImage(
-		// 	hero,
-		// 	0, //left cut
-		// 	0, //top cut
-		// 	32,//width cut 
-		// 	32,//heigt cut
-		// 	x * 16 - 8, //poss X
-		// 	y * 16 - 18,//poss Y
-		// 	32, //width
-		// 	32 
-		// 	)
-		// }
-		// hero.src = "./images/characters/people/hero.png"
-
-		let hero = new GameObject({
-			x: 5,
-			y: 6,
-		})
-		let npc1 = new GameObject({
-			x: 4,
-			y: 6,
-			src: "./images/characters/people/npc1.png"
-		})
-
-		setTimeout(()=>{
-			hero.sprite.draw(this.ctx)
-			npc1.sprite.draw(this.ctx)
-		},200)
+		this.startGameLoop()
 	}
 }
