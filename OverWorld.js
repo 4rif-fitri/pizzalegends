@@ -11,10 +11,11 @@ class OverWorld{
 			//cler canvas
 			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 
-			
 			this.map.drawLowerImage(this.ctx)
 			Object.values(this.map.gameObjects).forEach(obj => {
-					// obj.x += 0.01
+					obj.update({
+						arrow: this.directionInput.direction 
+					})
 					obj.sprite.draw(this.ctx)
 				})
 				
@@ -33,6 +34,10 @@ class OverWorld{
 		this.map = new OverWorldMap(
 			window.OverWorldMaps.DemoRoom
 		)
+
+		this.directionInput = new DirectionInput()
+		this.directionInput.init()
+		this.directionInput.direction
 
 		this.startGameLoop()
 	}
