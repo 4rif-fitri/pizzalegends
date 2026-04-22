@@ -35,7 +35,7 @@ class Sprite{
 
 	draw(ctx){
 		let x = this.gameObject.x * 16 - 8
-		let y = this.gameObject.t * 16 - 18
+		let y = this.gameObject.y * 16 - 18
 
 		this.isShadowLoaded && ctx.drawImage(this.shadow,x,y)
 
