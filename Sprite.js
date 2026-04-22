@@ -7,6 +7,15 @@ class Sprite{
 			this.isLoaded = true
 		} 
 
+		//shadow
+		this.shadow = new Image()
+		this.useShadow = true
+		if (this.useShadow){
+			this.shadow.src = "./images/characters/shadow.png"
+		}
+		this.shadow.onload = () =>{
+			this.isShadowLoaded = true
+		}
 
 		//config animation
 		this.animations = config.animations || {
@@ -28,7 +37,9 @@ class Sprite{
 		let x = this.gameObject.x * 16 - 8
 		let y = this.gameObject.t * 16 - 18
 
-		ctx.drawImage(this.image,
+		this.isShadowLoaded && ctx.drawImage(this.shadow,x,y)
+
+		this.isLoaded && ctx.drawImage(this.image,
 			0,0,
 			32,32,
 			x,y,
